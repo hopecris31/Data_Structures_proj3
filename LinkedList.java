@@ -20,39 +20,47 @@ public class LinkedList
         return this.length;
     }
 
+    public boolean isEmpty(){
+        return firstNode == null;
+    }
+
     public void insertAtHead(String data)
     {
-    	ListNode newnode = new ListNode(data);
+    	ListNode newNode = new ListNode(data);
         if (getLength() == 0){
-            firstNode=newnode;
+            firstNode = newNode;
         }
         else{
-            newnode.next=firstNode;
-            firstNode=newnode;
+            newNode.next = firstNode;
+            firstNode = newNode;
         }
         length++;
     }
 
 
     public void insertAfter(String prevData, String data){
-        ListNode runner = this.firstNode;
-        ListNode prev = null;
+        if(!this.isEmpty()){
+            ListNode runner = this.firstNode;
+            ListNode prev = null;
 
-        while(runner != null && !runner.getData().equals(prevData)){
-            prev = runner;
-            runner = runner.next();
-        }
-        if(runner.next().equals(null)){ //if toInsert is at the end of the list
+            while(runner != null && !runner.getData().equals(prevData)){
+                prev = runner;
+                runner = runner.next();
+            }
             ListNode newNode = new ListNode(data);
+            if(runner.next() == null) {
+                newNode.next = null;
+            }
+            else {
+                newNode.next = runner.next;
+            }
             runner.next = newNode;
-            newNode.next = null;
         }
-        ListNode newNode = new ListNode(data);
-        newNode.next = runner.next;
-        runner.next = newNode;
-
     }
 
+    public void insertBefore(String prevData, String data){
+
+    }
 
 	public String toString(){ 
 		String toReturn = "(";

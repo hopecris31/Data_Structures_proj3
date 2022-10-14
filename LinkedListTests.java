@@ -30,17 +30,59 @@ public class LinkedListTests {
     }
 
     @Test //Tests insertAfter; inserts after the head
-    public void insertAfterTest(){
+    public void insertAtHead(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.insertAtHead("X");
+
+        assertEquals("(X, A, B, C)", ll.toString());
+        System.out.println(ll.toString());
+    }
+
+    @Test //Tests insertAfter; inserts after the head
+    public void insertAtHeadEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.insertAtHead("X");
+
+        assertEquals("(X)", ll.toString());
+        System.out.println(ll.toString());
+    }
+
+    @Test //Tests insertAfter; inserts after the head
+    public void insertAfterTestHead(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
 
         ll.insertAfter("A", "X");
 
         assertEquals("(A, X, B, C)", ll.toString());
-
         System.out.println(ll.toString());
     }
 
+    @Test //Tests insertAfter; inserts after when inserting after last node
+    public void insertAfterTestlast(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.insertAfter("C", "X");
+
+        assertEquals("(A, B, C, X)", ll.toString());
+        System.out.println(ll.toString());
+    }
+
+    @Test //Tests insertAfter; if call insertAfter on empty LinkedList, inserts after the head
+    public void insertAfterTestEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.insertAfter("C", "X");
+
+        assertEquals("()", ll.toString());
+        System.out.println(ll.toString());
+    }
 
 
 
