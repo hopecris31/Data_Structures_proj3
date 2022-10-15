@@ -31,12 +31,21 @@ public class ListNode
         this.next = nextNode;
     }
 
-    
+    public boolean equals(ListNode other){
+        if(!this.data.equals(other.data)){
+            return false;
+        }
+        if(!this.next.equals(other.next)){
+            return false;
+        }
+        return true;
+    }
+
     public String toString(){
     	return this.data;
     }
 
-    public ListNode next() {
+    public ListNode getNext() {
         return this.next;
     }
 }

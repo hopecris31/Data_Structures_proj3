@@ -9,8 +9,8 @@ import static org.junit.Assert.*;
 
 public class LinkedListTests {
 
-    //@Rule // a test will fail if it takes longer than 1/10 of a second to run
-    //public Timeout timeout = Timeout.millis(100);
+    @Rule // a test will fail if it takes longer than 1/10 of a second to run
+    public Timeout timeout = Timeout.millis(100);
 
 
     private LinkedList makeLinkedList(String[] items){
@@ -27,8 +27,8 @@ public class LinkedListTests {
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
 
-
-
+        assertEquals("(A, B, C)", ll.toString());
+        assertEquals(3, ll.getLength());
         System.out.println(ll.toString());
     }
 
@@ -40,6 +40,7 @@ public class LinkedListTests {
         ll.insertAtHead("X");
 
         assertEquals("(X, A, B, C)", ll.toString());
+        assertEquals(4, ll.getLength());
         System.out.println(ll.toString());
     }
 
@@ -51,6 +52,7 @@ public class LinkedListTests {
         ll.insertAtHead("X");
 
         assertEquals("(X)", ll.toString());
+        assertEquals(1, ll.getLength());
         System.out.println(ll.toString());
     }
 
@@ -62,6 +64,7 @@ public class LinkedListTests {
         ll.insertAfter("A", "X");
 
         assertEquals("(A, X, B, C)", ll.toString());
+        assertEquals(4, ll.getLength());
         System.out.println(ll.toString());
     }
 
@@ -73,6 +76,7 @@ public class LinkedListTests {
         ll.insertAfter("C", "X");
 
         assertEquals("(A, B, C, X)", ll.toString());
+        assertEquals(4, ll.getLength());
         System.out.println(ll.toString());
     }
 
@@ -84,6 +88,7 @@ public class LinkedListTests {
         ll.insertAfter("C", "X");
 
         assertEquals("()", ll.toString());
+        assertEquals(0, ll.getLength());
         System.out.println(ll.toString());
     }
 
@@ -95,6 +100,7 @@ public class LinkedListTests {
         ll.insertAfter("D", "X");
 
         assertEquals("(A, B, C)", ll.toString());
+        assertEquals(3, ll.getLength());
         System.out.println(ll.toString());
     }
 
@@ -106,6 +112,7 @@ public class LinkedListTests {
         ll.insertBefore("C", "X");
 
         assertEquals("(A, B, X, C)", ll.toString());
+        assertEquals(4, ll.getLength());
         System.out.println(ll.toString());
     }
 
@@ -117,6 +124,7 @@ public class LinkedListTests {
         ll.insertBefore("A", "X");
 
         assertEquals("(X, A, B, C)", ll.toString());
+        assertEquals(4, ll.getLength());
         System.out.println(ll.toString());
     }
 
@@ -128,6 +136,7 @@ public class LinkedListTests {
         ll.insertBefore("A", "X");
 
         assertEquals("()", ll.toString());
+        assertEquals(0, ll.getLength());
         System.out.println(ll.toString());
     }
 
@@ -139,7 +148,57 @@ public class LinkedListTests {
         ll.insertBefore("D", "X");
 
         assertEquals("(A, B, C)", ll.toString());
+        assertEquals(3, ll.getLength());
         System.out.println(ll.toString());
+    }
+
+    @Test //Tests remove;
+    public void removeTest(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.remove("B");
+
+        assertEquals("(A, C)", ll.toString());
+        assertEquals(2, ll.getLength());
+        System.out.println(ll.toString());
+    }
+
+    @Test //Tests remove; tries to remove an item that isnt in the list, should do nothing
+    public void removeNotInList(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.remove("B");
+
+        assertEquals("(A, C)", ll.toString());
+        assertEquals(2, ll.getLength());
+        System.out.println(ll.toString());
+    }
+
+    @Test
+    public void removeAtHead(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.remove("A");
+
+        assertEquals("(B, C)", ll.toString());
+        assertEquals(2, ll.getLength());
+        System.out.println(ll.toString());
+    }
+
+    @Test
+    public void removeAtEnd(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.remove("C");
+
+        assertEquals(2, ll.getLength());
+        assertTrue(ll.equals(correct));
     }
 
 }
