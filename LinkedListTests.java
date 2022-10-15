@@ -17,6 +17,7 @@ public class LinkedListTests {
         LinkedList ll = new LinkedList();
         for (String item : items) {
             ll.insertAtHead(item);
+
         }
         return ll;
     }
@@ -25,6 +26,8 @@ public class LinkedListTests {
     public void LinkedListConstructor(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+
+
 
         System.out.println(ll.toString());
     }
@@ -73,7 +76,7 @@ public class LinkedListTests {
         System.out.println(ll.toString());
     }
 
-    @Test //Tests insertAfter; if call insertAfter on empty LinkedList, inserts after the head
+    @Test //Tests insertAfter; if call insertAfter on empty LinkedList, does nothing
     public void insertAfterTestEmpty(){
         String[] items = {};
         LinkedList ll = makeLinkedList(items);
@@ -84,6 +87,59 @@ public class LinkedListTests {
         System.out.println(ll.toString());
     }
 
+    @Test //Tests insertAfter; if call insertAfter when item to insert after isnt in list, do nothing
+    public void insertAfterTestNotInList(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
 
+        ll.insertAfter("D", "X");
+
+        assertEquals("(A, B, C)", ll.toString());
+        System.out.println(ll.toString());
+    }
+
+    @Test //Tests insertBefore;
+    public void insertBeforeTest(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.insertBefore("C", "X");
+
+        assertEquals("(A, B, X, C)", ll.toString());
+        System.out.println(ll.toString());
+    }
+
+    @Test //Tests insertBefore; insert an element at the head of the list
+    public void insertBeforeAtHead(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.insertBefore("A", "X");
+
+        assertEquals("(X, A, B, C)", ll.toString());
+        System.out.println(ll.toString());
+    }
+
+    @Test //Tests insertBefore; insert an element at the head of the list
+    public void insertBeforeEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.insertBefore("A", "X");
+
+        assertEquals("()", ll.toString());
+        System.out.println(ll.toString());
+    }
+
+    @Test //Tests insertBefore; insert an element at the head of the list. should do nothing
+    public void insertBeforeItemNotInList(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.insertBefore("D", "X");
+
+        assertEquals("(A, B, C)", ll.toString());
+        System.out.println(ll.toString());
+    }
 
 }

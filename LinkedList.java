@@ -24,6 +24,10 @@ public class LinkedList
         return firstNode == null;
     }
 
+    public void setFirst(ListNode head){
+        this.firstNode = head;
+    }
+
     public void insertAtHead(String data)
     {
     	ListNode newNode = new ListNode(data);
@@ -47,19 +51,45 @@ public class LinkedList
                 prev = runner;
                 runner = runner.next();
             }
-            ListNode newNode = new ListNode(data);
-            if(runner.next() == null) {
-                newNode.next = null;
+            if(runner != null){
+                ListNode newNode = new ListNode(data);
+                if(runner.next() == null) { //if at the end of the sequence
+                    newNode.next = null;
+                }
+                else {
+                    newNode.next = runner.next;
+                }
+                runner.next = newNode;
             }
-            else {
-                newNode.next = runner.next;
-            }
-            runner.next = newNode;
         }
     }
 
-    public void insertBefore(String prevData, String data){
+    public void insertBefore(String nextData, String data){
+        if(!this.isEmpty()){
+            ListNode runner = this.firstNode;
+            ListNode prev = null;
 
+            while(runner != null && !runner.getData().equals(nextData)){ //while not at the end and not equal to the node to insert before
+                prev = runner; //advances in the sequence
+                runner = runner.next();
+            }
+            if(runner != null){
+                ListNode newNode = new ListNode(data);
+                if(isHead(nextData)) {//if at beginning of list
+                    newNode.setNext(this.firstNode);
+                    this.firstNode = newNode;
+
+                }
+                else {
+                    prev.setNext(newNode);
+                    newNode.setNext(runner);
+                }
+            }
+        }
+    }
+
+    private boolean isHead(String data){
+        return this.firstNode.getData().equals(data);
     }
 
 	public String toString(){ 
