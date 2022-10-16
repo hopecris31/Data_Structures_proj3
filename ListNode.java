@@ -1,5 +1,7 @@
 package proj3;
 
+import java.util.Objects;
+
 /**
  * The ListNode class is more data-specific than the LinkedList class.  It
  * details what a single node looks like.  This node has one data field,
@@ -35,7 +37,7 @@ public class ListNode
         if(!this.data.equals(other.data)){
             return false;
         }
-        if(!this.next.equals(other.next)){
+        if(!Objects.equals(this.next, other.next)){
             return false;
         }
         return true;

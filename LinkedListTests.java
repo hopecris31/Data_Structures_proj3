@@ -13,11 +13,15 @@ public class LinkedListTests {
     public Timeout timeout = Timeout.millis(100);
 
 
+    /**
+     * constructs a linked list with elements from a given array
+     * @param items an array of items
+     * @return the linked list with the items
+     */
     private LinkedList makeLinkedList(String[] items){
         LinkedList ll = new LinkedList();
         for (String item : items) {
             ll.insertAtHead(item);
-
         }
         return ll;
     }
@@ -26,167 +30,180 @@ public class LinkedListTests {
     public void LinkedListConstructor(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
 
-        assertEquals("(A, B, C)", ll.toString());
-        assertEquals(3, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests insertAfter; inserts after the head
+    @Test //Tests insertAtHead; inserts new node so the head becomes the new node
     public void insertAtHead(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "B", "A", "X"};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertAtHead("X");
 
-        assertEquals("(X, A, B, C)", ll.toString());
-        assertEquals(4, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
+
     }
 
-    @Test //Tests insertAfter; inserts after the head
+    @Test //Tests insertAtHead; inserts a node into an empty Linked List.  New node becomes the head
     public void insertAtHeadEmpty(){
         String[] items = {};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"X"};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertAtHead("X");
 
-        assertEquals("(X)", ll.toString());
-        assertEquals(1, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests insertAfter; inserts after the head
-    public void insertAfterTestHead(){
+    @Test //Tests insertAfter; inserts new node after the head
+    public void insertAfterHead(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "B", "X", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertAfter("A", "X");
 
-        assertEquals("(A, X, B, C)", ll.toString());
-        assertEquals(4, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests insertAfter; inserts after when inserting after last node
-    public void insertAfterTestlast(){
+    @Test //Tests insertAfter; inserts after the last node. new node now points to null
+    public void insertAfterLast(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"X", "C", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertAfter("C", "X");
 
-        assertEquals("(A, B, C, X)", ll.toString());
-        assertEquals(4, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
 
     @Test //Tests insertAfter; if call insertAfter on empty LinkedList, does nothing
-    public void insertAfterTestEmpty(){
+    public void insertAfterEmpty(){
         String[] items = {};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertAfter("C", "X");
 
-        assertEquals("()", ll.toString());
-        assertEquals(0, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests insertAfter; if call insertAfter when item to insert after isnt in list, do nothing
-    public void insertAfterTestNotInList(){
+    @Test //Tests insertAfter; if call insertAfter when item to insert after isn't in list, does nothing
+    public void insertAfterNotInList(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertAfter("D", "X");
 
-        assertEquals("(A, B, C)", ll.toString());
-        assertEquals(3, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests insertBefore;
-    public void insertBeforeTest(){
+    @Test //Tests insertBefore; inserts new node before a current node in the list
+    public void insertBefore(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "X", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertBefore("C", "X");
 
-        assertEquals("(A, B, X, C)", ll.toString());
-        assertEquals(4, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests insertBefore; insert an element at the head of the list
+    @Test //Tests insertBefore; insert an element before the head of the list.  New node becomes head
     public void insertBeforeAtHead(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "B", "A", "X"};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertBefore("A", "X");
 
-        assertEquals("(X, A, B, C)", ll.toString());
-        assertEquals(4, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests insertBefore; insert an element at the head of the list
+    @Test //Tests insertBefore; tries to insert an element in an empty list.  Does nothing
     public void insertBeforeEmpty(){
         String[] items = {};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertBefore("A", "X");
-
-        assertEquals("()", ll.toString());
-        assertEquals(0, ll.getLength());
         System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
+
     }
 
-    @Test //Tests insertBefore; insert an element at the head of the list. should do nothing
+    @Test //Tests insertBefore; called on a list in which the node to insert before is not in the list. Does nothing
     public void insertBeforeItemNotInList(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertBefore("D", "X");
 
-        assertEquals("(A, B, C)", ll.toString());
-        assertEquals(3, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
 
     @Test //Tests remove;
     public void removeTest(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.remove("B");
 
-        assertEquals("(A, C)", ll.toString());
-        assertEquals(2, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests remove; tries to remove an item that isnt in the list, should do nothing
+    @Test //Tests remove; tries to remove an item that isn't in the list, should do nothing
     public void removeNotInList(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
 
-        ll.remove("B");
+        ll.remove("X");
 
-        assertEquals("(A, C)", ll.toString());
-        assertEquals(2, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
 
-    @Test
+    @Test //Tests remove; removes the node at the head. The node after becomes the head
     public void removeAtHead(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "B"};
+        LinkedList correct = makeLinkedList(correctItems);
 
         ll.remove("A");
 
-        assertEquals("(B, C)", ll.toString());
-        assertEquals(2, ll.getLength());
-        System.out.println(ll.toString());
+        assertTrue(ll.equals(correct));
     }
+
+    @Test //Tests clear; there should be no items in the List and length is 0
+    public void clear(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        ll.clear();
+
+        assertEquals(0, ll.getLength());
+    }
+
 
     @Test
     public void removeAtEnd(){
@@ -197,8 +214,34 @@ public class LinkedListTests {
 
         ll.remove("C");
 
-        assertEquals(2, ll.getLength());
         assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests contains; checks to see if a Linked List contains a specified item
+    public void contains(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        assertEquals(true, ll.contains("A"));
+    }
+
+    @Test //Tests contains; called on a Linked List that does not contain the item
+    public void containsNotInList(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+
+        assertEquals(false, ll.contains("A"));
+    }
+
+    @Test //Tests getLastItem; finds the last item in a Linked List
+    public void getLastItem(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        System.out.println(ll.toString());
+        System.out.println(ll.getLastItem().toString());
+
+        assertEquals("C", ll.getLastItem().getData());
     }
 
 }

@@ -41,14 +41,49 @@ public class LinkedList
         length++;
     }
 
+    public void insertAtEnd(String data){
+        if(this.getLength() != 0){
+            ListNode runner = this.firstNode;
+            ListNode prev = null;
+
+        }
+        //if not empty
+            //runner = head
+            //prev = null
+            //iterate to the end of the list
+            //while not at the end:
+            //prev = runner
+            //runner = runner.next
+            //when at the end of the list(when runner == null):
+            //runner.setNext = toInsert
+            //tInsert.setNext = null
+        //if empty:
+            //insert atHead
+    }
+
+    public ListNode getLastItem(){
+        if(this.isEmpty()){
+            return null;
+        }
+        ListNode runner = this.firstNode;
+        ListNode prev = null;
+        while(runner.getNext() != null){
+            prev = runner;
+            runner = runner.next;
+        }
+        return runner;
+    }
+
+    //make private helper that gets the last element
+    //use insert after on the last element
+    //if empty...
+
 
     public void insertAfter(String prevData, String data){
         if(!this.isEmpty()){
             ListNode runner = this.firstNode;
-            ListNode prev = null;
 
             while(runner != null && !runner.getData().equals(prevData)){
-                prev = runner;
                 runner = runner.getNext();
             }
             if(runner != null){
@@ -117,6 +152,32 @@ public class LinkedList
         return this.firstNode.getData().equals(data);
     }
 
+    public void clear(){
+        this.length = 0;
+        this.setFirst(null);
+    }
+
+    public boolean contains(String data){
+        ListNode runner = this.firstNode;
+        while(runner != null){
+            if(runner.getData().equals(data)){
+                return true;
+            }
+            runner = runner.next;
+        }
+        return false;
+    }
+
+    //public LinkedList clone(){
+    //    LinkedList cloneList = new LinkedList();
+    //    cloneList.setFirst(this.firstNode);
+
+    //    ListNode runner = this.firstNode;
+    //    ListNode prev = null;
+    //    while(runner != null){
+    //        cloneList.insertAtEnd();
+    //    }
+    //}
 
     public boolean equals(LinkedList other) {
         if(this.getLength() != other.getLength()) {
