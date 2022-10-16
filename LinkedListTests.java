@@ -182,6 +182,18 @@ public class LinkedListTests {
         assertTrue(ll.equals(correct));
     }
 
+    @Test //Tests remove; tries to remove an item that isn't in the list, should do nothing
+    public void removeEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.remove("X");
+
+        assertTrue(ll.equals(correct));
+    }
+
     @Test //Tests remove; removes the node at the head. The node after becomes the head
     public void removeAtHead(){
         String[] items = {"C", "B", "A"};
@@ -206,7 +218,7 @@ public class LinkedListTests {
 
 
     @Test
-    public void removeAtEnd(){
+    public void removeLastElement(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
         String[] correctItems = {"B", "A"};
@@ -233,15 +245,28 @@ public class LinkedListTests {
         assertEquals(false, ll.contains("A"));
     }
 
-    @Test //Tests getLastItem; finds the last item in a Linked List
-    public void getLastItem(){
+    @Test //Tests insertAtEnd;
+    public void insertAtEnd(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"X", "C", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
 
-        System.out.println(ll.toString());
-        System.out.println(ll.getLastItem().toString());
+        ll.insertAtEnd("X");
 
-        assertEquals("C", ll.getLastItem().getData());
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests insertAtEnd; called on an empty Linked List
+    public void insertAtEndEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"X"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.insertAtEnd("X");
+
+        assertTrue(ll.equals(correct));
     }
 
 }

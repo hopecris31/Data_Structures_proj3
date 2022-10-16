@@ -24,14 +24,13 @@ public class LinkedList
         return firstNode == null;
     }
 
-    public void setFirst(ListNode head){
+    private void setFirst(ListNode head){
         this.firstNode = head;
     }
 
-    public void insertAtHead(String data)
-    {
+    public void insertAtHead(String data) {
     	ListNode newNode = new ListNode(data);
-        if (getLength() == 0){
+        if (this.isEmpty()){
             firstNode = newNode;
         }
         else{
@@ -42,11 +41,16 @@ public class LinkedList
     }
 
     public void insertAtEnd(String data){
-        if(this.getLength() != 0){
-            ListNode runner = this.firstNode;
-            ListNode prev = null;
-
+        if(!this.isEmpty()){
+            ListNode last = this.getLastItem();
+            ListNode newNode = new ListNode(data);
+            last.next = newNode;
+            this.length++;
         }
+        else{
+            this.insertAtHead(data);
+        }
+    }
         //if not empty
             //runner = head
             //prev = null
@@ -59,16 +63,13 @@ public class LinkedList
             //tInsert.setNext = null
         //if empty:
             //insert atHead
-    }
 
-    public ListNode getLastItem(){
+    private ListNode getLastItem(){
         if(this.isEmpty()){
             return null;
         }
         ListNode runner = this.firstNode;
-        ListNode prev = null;
         while(runner.getNext() != null){
-            prev = runner;
             runner = runner.next;
         }
         return runner;
@@ -168,16 +169,16 @@ public class LinkedList
         return false;
     }
 
-    //public LinkedList clone(){
-    //    LinkedList cloneList = new LinkedList();
-    //    cloneList.setFirst(this.firstNode);
-
-    //    ListNode runner = this.firstNode;
-    //    ListNode prev = null;
-    //    while(runner != null){
-    //        cloneList.insertAtEnd();
-    //    }
-    //}
+//    public LinkedList clone(){
+//        LinkedList cloneList = new LinkedList();
+//        cloneList.setFirst(this.firstNode);
+//
+//        ListNode runner = this.firstNode;
+//        ListNode prev = null;
+//        while(runner != null){
+//            cloneList.insertAtEnd(runner.getData());
+//        }
+//    }
 
     public boolean equals(LinkedList other) {
         if(this.getLength() != other.getLength()) {

@@ -38,8 +38,7 @@ public class Sequence
      *
      * @param value the string to add.
      */
-    public void addBefore(String value)
-    {
+    public void addBefore(String value) {
     }
     
     
