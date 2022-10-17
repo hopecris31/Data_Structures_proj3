@@ -36,6 +36,30 @@ public class LinkedListTests {
         assertTrue(ll.equals(correct));
     }
 
+    @Test //Tests getLength;
+    public void getLengthTest(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        assertEquals(3, ll.getLength());
+    }
+
+    @Test //Tests getLength;
+    public void isEmptyTestTrue(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+
+        assertTrue(ll.isEmpty());
+    }
+
+    @Test //Tests getLength;
+    public void isEmptyTestFalse(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        assertFalse(ll.isEmpty());
+    }
+
     @Test //Tests insertAtHead; inserts new node so the head becomes the new node
     public void insertAtHead(){
         String[] items = {"C", "B", "A"};
@@ -438,6 +462,18 @@ public class LinkedListTests {
         assertTrue(ll.equals(correct));
     }
 
+    @Test //Tests addAtIndex; adds to the first index
+    public void addAtIndexFirst(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "B", "A", "X"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.addAtIndex(0, "X");
+
+        assertTrue(ll.equals(correct));
+    }
+
     @Test //Tests addAtIndex; called on empty list
     public void addAtIndexEmpty(){
         String[] items = {};
@@ -450,15 +486,75 @@ public class LinkedListTests {
         assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests addAtIndex; tries to add at an index that is not in the list
+    @Test //Tests addAtIndex; tries to add at an index that is not in the list, does nothing
     public void addAtIndexNotInList(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.addAtIndex(10, "X");
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests removeAtIndex; tries to add at an index that is not in the list, so it adds at the end
+    public void removeAtIndex(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.removeAtIndex(2);
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests removeAtIndex; tries to remove an index that is not in the list, does nothing
+    public void removeAtIndexNotInList(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.removeAtIndex(4);
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests removeAtIndex; called upon empty list, does nothing
+    public void removeAtIndexEmpty(){
         String[] items = {};
         LinkedList ll = makeLinkedList(items);
         String[] correctItems = {};
         LinkedList correct = makeLinkedList(correctItems);
 
-        ll.addAtIndex(2, "X");
+        ll.removeAtIndex(4);
 
         assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests getDataAtIndex;
+    public void getDataAtIndexTest(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        assertEquals("C", ll.getDataAtIndex(2));
+    }
+
+    @Test //Tests getDataAtIndex; invalid index
+    public void getDataAtIndexInvalidIndex(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        assertNull(ll.getDataAtIndex(4));
+    }
+
+    @Test //Tests getDataAtIndex; empty list
+    public void getDataAtIndexEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+
+        assertNull(ll.getDataAtIndex(2));
     }
 }

@@ -216,7 +216,46 @@ public class LinkedList
         return -1;
     }
 
+    public String getDataAtIndex(int index){
+        if(!isEmpty()){
+            ListNode runner = this.firstNode;
+            int count = 0;
+            while(runner != null && count != index){
+                runner = runner.next;
+                count++;
+            }
+            if(runner != null){
+                return runner.getData();
+            }
+        }
+        return null;
+    }
+
     public void addAtIndex(int index, String toAdd){
+        if(!this.isEmpty()){
+            ListNode runner = this.firstNode;
+            ListNode prev = null;
+            int currIndex = 0;
+            while(runner != null && currIndex != index){
+                prev = runner;
+                runner = runner.next;
+                currIndex++;
+            }
+            if(runner != null){
+                ListNode newNode = new ListNode(toAdd);
+                if(currIndex == 0){
+                    this.firstNode = newNode;
+                }
+                else{
+                    prev.next = newNode;
+                }
+                newNode.next = runner;
+                length++;
+            }
+        }
+    }
+
+    public void removeAtIndex(int index){
         if(!this.isEmpty()){
             ListNode runner = this.firstNode;
             ListNode prev = runner.next;
@@ -226,10 +265,10 @@ public class LinkedList
                 runner = runner.next;
                 currIndex++;
             }
-            ListNode newNode = new ListNode(toAdd);
-            prev.setNext(newNode);
-            newNode.setNext(runner);
-            length++;
+            if(runner != null){
+                prev.setNext(runner.next);
+                length--;
+            }
         }
     }
 

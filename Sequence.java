@@ -4,15 +4,23 @@ package proj3;  // Gradescope needs this.
  */
 public class Sequence
 {
-	private LinkedList contents;
-	// maybe more??
+
+	private LinkedList holder;
+    private final int DEFAULT_CAPACITY = 10;
+    private int capacity;
+    private int items; //the number of items in the holder
+    private int currentIndex;
+    private final int NO_INDEX = -1;
+
 	
     /**
      * Creates a new sequence with initial capacity 10.
      */
     public Sequence() {
-    	
-    
+    	this.holder = new LinkedList();
+        this.capacity = DEFAULT_CAPACITY;
+        this.currentIndex = NO_INDEX;
+        this.items = this.holder.getLength();
     }
     
 
@@ -22,7 +30,10 @@ public class Sequence
      * @param initialCapacity the initial capacity of the sequence.
      */
     public Sequence(int initialCapacity){
-
+        this.holder = new LinkedList();
+        this.capacity = initialCapacity;
+        this.currentIndex = NO_INDEX;
+        this.items = this.holder.getLength();
     }
     
 
@@ -39,9 +50,37 @@ public class Sequence
      * @param value the string to add.
      */
     public void addBefore(String value) {
+        if(this.isEmpty()){
+            this.holder.insertAtHead(value);
+            this.setCurrentIndex(0);
+            this.items++;
+        }
+        else{
+            if(!this.isCurrent()){
+                this.setCurrentIndex(0);
+            }
+            else{
+                this.capacityReached();
+            }
+            //this.holder.insertBefore()
+            this.holder.addAtIndex(currentIndex, value);
+            this.items++;
+        }
+        //this.setCurrentIndex();
     }
-    
-    
+
+
+    private void capacityReached() {
+        if(this.size() == this.getCapacity()){
+            this.ensureCapacity((this.getCapacity()*2)+1);
+        }
+    }
+
+    private void setCurrentIndex(int newIndex) {
+        this.currentIndex = newIndex;
+    }
+
+
     /**
      * Adds a string to the sequence in the location after the current
      * element. If the sequence has no current element, the string is
@@ -62,9 +101,8 @@ public class Sequence
     /**
      * @return true if and only if the sequence has a current element.
      */
-    public boolean isCurrent()
-    {
-        return false;
+    public boolean isCurrent() {
+        return this.currentIndex != NO_INDEX;
     }
     
     
@@ -73,7 +111,7 @@ public class Sequence
      */
     public int getCapacity()
     {
-        return 0;
+        return this.capacity;
     }
 
     
@@ -83,7 +121,12 @@ public class Sequence
      */
     public String getCurrent()
     {
-        return null;
+        if (isCurrent()){
+            return this.holder.getDataAtIndex(currentIndex); //is this an appropriate helper method
+        }
+        else{
+            return null;
+        }
     }
     
     
@@ -95,8 +138,10 @@ public class Sequence
      * @param minCapacity the minimum capacity that the sequence
      * should now have.
      */
-    public void ensureCapacity(int minCapacity)
-    {
+    public void ensureCapacity(int minCapacity) {
+        if(this.getCapacity() < minCapacity){
+            this.capacity = minCapacity;
+        }
     }
 
     
@@ -115,8 +160,8 @@ public class Sequence
      *
      * @param another the sequence whose contents should be added.
      */
-    public void addAll(Sequence another)
-    {
+    public void addAll(Sequence another) {
+
     }
 
     
@@ -168,7 +213,7 @@ public class Sequence
      */
     public int size()
     {
-        return 0;
+        return this.items;
     }
 
     
@@ -176,8 +221,13 @@ public class Sequence
      * Sets the current element to the start of the sequence.  If the
      * sequence is empty, the sequence has no current element.
      */
-    public void start()
-    {
+    public void start() {
+        if(this.isEmpty()){
+            this.setCurrentIndex(NO_INDEX);
+        }
+        else{
+            this.setCurrentIndex(0);
+        }
     }
 
     
@@ -236,7 +286,7 @@ public class Sequence
      */
     public boolean isEmpty()
     {
-        return false;
+        return this.size() == 0;
     }
     
     
