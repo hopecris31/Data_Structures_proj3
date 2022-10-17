@@ -93,8 +93,7 @@ public class Sequence
      *
      * @param value the string to add.
      */
-    public void addAfter(String value)
-    {
+    public void addAfter(String value) {
     }
 
     
@@ -174,10 +173,22 @@ public class Sequence
      *
      * If there is no current element to begin with, do nothing.
      */
-    public void advance()
-    {
+    public void advance() {
+        if(isCurrent()) {
+            if (endOfSequenceReached()) { // if the current index is at the end of the sequence
+                this.setCurrentIndex(NO_INDEX);  //is this.getCapacity()-1 the best way to express "at the last index"
+            }
+            this.currentIndex +=1;
+        }
     }
 
+    private boolean endOfSequenceReached(){
+        return this.currentIndex == getLastIndex();
+    }
+
+    private int getLastIndex(){
+        return getCapacity()-1;
+    }
     
     /**
      * Make a copy of this sequence.  Subsequence changes to the copy
@@ -203,8 +214,7 @@ public class Sequence
      *
      * If there is no current element, does nothing.
      */
-    public void removeCurrent()
-    {
+    public void removeCurrent() {
     }
 
     
@@ -235,8 +245,8 @@ public class Sequence
      * Reduce the current capacity to its actual size, so that it has
      * capacity to store only the elements currently stored.
      */
-    public void trimToSize()
-    {
+    public void trimToSize() {
+        this.capacity = this.items;
     }
     
     
@@ -257,7 +267,7 @@ public class Sequence
      */
     public String toString() 
     {
-        return null;
+        return"";
     }
     
     /**
@@ -276,6 +286,15 @@ public class Sequence
      */
     public boolean equals(Sequence other) 
     {
+        if(this.size() != other.size()) {
+            return false;
+        }
+        if (this.currentIndex != other.currentIndex){
+            return false;
+        }
+        if (!this.holder.equals(other.holder)){
+            return false;
+        }
         return true;
     }
     
@@ -293,8 +312,9 @@ public class Sequence
     /**
      *  empty the sequence.  There should be no current element.
      */
-    public void clear()
-    {
+    public void clear() {
+        this.items = 0;
+        this.currentIndex = NO_INDEX;
     }
 
 }
