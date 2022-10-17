@@ -28,6 +28,10 @@ public class LinkedList
         this.firstNode = head;
     }
 
+    private void setLength(int length){
+        this.length = length;
+    }
+
     public void insertAtHead(String data) {
     	ListNode newNode = new ListNode(data);
         if (this.isEmpty()){
@@ -51,18 +55,6 @@ public class LinkedList
             this.insertAtHead(data);
         }
     }
-        //if not empty
-            //runner = head
-            //prev = null
-            //iterate to the end of the list
-            //while not at the end:
-            //prev = runner
-            //runner = runner.next
-            //when at the end of the list(when runner == null):
-            //runner.setNext = toInsert
-            //tInsert.setNext = null
-        //if empty:
-            //insert atHead
 
     private ListNode getLastItem(){
         if(this.isEmpty()){
@@ -75,9 +67,18 @@ public class LinkedList
         return runner;
     }
 
-    //make private helper that gets the last element
-    //use insert after on the last element
-    //if empty...
+    private ListNode getTail(){
+        if(this.isEmpty()){
+            return null;
+        }
+        ListNode runner = this.firstNode;
+        ListNode prev = null;
+        while(runner.next != null) {
+            prev = runner;
+            runner = runner.next;
+        }
+        return prev;
+    }
 
 
     public void insertAfter(String prevData, String data){
@@ -154,7 +155,7 @@ public class LinkedList
     }
 
     public void clear(){
-        this.length = 0;
+        this.setLength(0);
         this.setFirst(null);
     }
 
@@ -169,16 +170,69 @@ public class LinkedList
         return false;
     }
 
-//    public LinkedList clone(){
-//        LinkedList cloneList = new LinkedList();
-//        cloneList.setFirst(this.firstNode);
-//
-//        ListNode runner = this.firstNode;
-//        ListNode prev = null;
-//        while(runner != null){
-//            cloneList.insertAtEnd(runner.getData());
-//        }
-//    }
+    public LinkedList clone(){
+        LinkedList cloneList = new LinkedList();
+        cloneList.setFirst(this.firstNode);
+        cloneList.setLength(this.getLength());
+        return cloneList;
+    }
+
+    public void removeLast(){
+        if(!this.isEmpty()){
+            this.getTail().setNext(null);
+            length--;
+        }
+    }
+
+    public void removeAtHead(){
+        if(!this.isEmpty()){
+            this.setFirst(firstNode.next);
+            length--;
+        }
+    }
+
+    public void addAll(LinkedList toAdd){
+        if(this.isEmpty()){
+            this.setFirst(toAdd.firstNode);
+        }
+        else{
+            this.getLastItem().setNext(toAdd.firstNode);
+        }
+        this.length += toAdd.getLength();
+    }
+
+    public int getIndex(String data){
+        if(!isEmpty()){
+            ListNode runner = this.firstNode;
+            int count = 0;
+            while(runner != null && !runner.getData().equals(data)){
+                runner = runner.next;
+                count++;
+            }
+            if(runner != null){
+                return count;
+            }
+        }
+        return -1;
+    }
+
+    public void addAtIndex(int index, String toAdd){
+        if(!this.isEmpty()){
+            ListNode runner = this.firstNode;
+            ListNode prev = runner.next;
+            int currIndex = 0;
+            while(runner != null && currIndex != index){
+                prev = runner;
+                runner = runner.next;
+                currIndex++;
+            }
+            ListNode newNode = new ListNode(toAdd);
+            prev.setNext(newNode);
+            newNode.setNext(runner);
+            length++;
+        }
+    }
+
 
     public boolean equals(LinkedList other) {
         if(this.getLength() != other.getLength()) {

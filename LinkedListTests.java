@@ -141,7 +141,6 @@ public class LinkedListTests {
         LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertBefore("A", "X");
-        System.out.println(ll.toString());
         assertTrue(ll.equals(correct));
 
     }
@@ -269,4 +268,197 @@ public class LinkedListTests {
         assertTrue(ll.equals(correct));
     }
 
+    @Test //Tests clone;
+    public void cloneTest(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        LinkedList correct = ll.clone();
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests clone; called on an empty list
+    public void cloneTestEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+
+        LinkedList correct = ll.clone();
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests removeLast;
+    public void removeLast(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.removeLast();
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests removeLast; called on an empty LinkedList
+    public void removeLastEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.removeLast();
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests removeLast; tries to remove the last element that has a duplicate in the list
+    public void removeLastDuplicateData(){
+        String[] items = {"C", "B", "A", "C"};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = { "B", "A", "C"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+
+        ll.removeLast();
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests removeAtHead;
+    public void removeAtHeadTest(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = { "C", "B"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.removeAtHead();
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests removeAtHead; called on an empty LinkedList
+    public void removeAtHeadEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.removeAtHead();
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests addAll;
+    public void addAllTest(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] otherItems = {"3", "2", "1"};
+        LinkedList other = makeLinkedList(otherItems);
+        String[] correctItems = {"3", "2", "1", "C", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        System.out.println(correct.toString());
+        ll.addAll(other);
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests addAll; adding another list to an empty list
+    public void addAllTestFirstEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+        String[] otherItems = {"3", "2", "1"};
+        LinkedList other = makeLinkedList(otherItems);
+        String[] correctItems = {"3", "2", "1"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        System.out.println(correct.toString());
+        ll.addAll(other);
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests addAll; adding another empty list to a list with items
+    public void addAllTestOtherEmpty(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] otherItems = {};
+        LinkedList other = makeLinkedList(otherItems);
+        String[] correctItems = {"C", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        System.out.println(correct.toString());
+        ll.addAll(other);
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests getIndex;
+    public void getIndex(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        assertEquals(2, ll.getIndex("C"));
+    }
+
+    @Test //Tests getIndex; finds the first element which is at index 0
+    public void getIndexFirst(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        assertEquals(0, ll.getIndex("A"));
+    }
+
+    @Test //Tests getIndex; called opn an empty Linked List
+    public void getIndexEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+
+        assertEquals(-1, ll.getIndex("X"));
+    }
+
+    @Test //Tests getIndex; called to find the index of an element that is not in the list
+    public void getIndexNotInList(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        assertEquals(-1, ll.getIndex("X"));
+    }
+
+    @Test //Tests addAtIndex; the item is added at specified index, and all following elements have +1 index
+    public void addAtIndex(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {"C", "X", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.addAtIndex(2, "X");
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests addAtIndex; called on empty list
+    public void addAtIndexEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.addAtIndex(2, "X");
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests addAtIndex; tries to add at an index that is not in the list
+    public void addAtIndexNotInList(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+        String[] correctItems = {};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        ll.addAtIndex(2, "X");
+
+        assertTrue(ll.equals(correct));
+    }
 }
