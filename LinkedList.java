@@ -4,11 +4,11 @@ package proj3;
  * LinkedList class: represents a Linked List
  *
  *  INVARIANTS:
- *  -size must always equal the number of nodes in the list
- *  -the last node points to null
- *  -the first node points to the first node in the list
- *      -if length is equal to 0, the first node points to null
- *  -list node next refers to the next node in the list
+ *  - size must always equal the number of nodes in the list
+ *  - the last node points to null
+ *  - the first node points to the first node in the list
+ *      - if length is equal to 0, the first node points to null
+ *  - list node next refers to the next node in the list
  */
 public class LinkedList
 {
@@ -126,7 +126,7 @@ public class LinkedList
             }
             if(runner != null){
                 ListNode newNode = new ListNode(data);
-                if(isHead(nextData)) {//if at beginning of list
+                if(isHead(nextData)) {
                     newNode.next = this.getFirstNode();
                     this.firstNode = newNode;
                 }
@@ -275,8 +275,8 @@ public class LinkedList
 
     public void removeAtIndex(int index){
         if(!this.isEmpty()){
-            ListNode runner = this.firstNode;
-            ListNode prev = runner.next;
+            ListNode runner = this.getFirstNode();
+            ListNode prev = null;
             int currIndex = 0;
             while(runner != null && currIndex != index){
                 prev = runner;

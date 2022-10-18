@@ -111,10 +111,11 @@ public class SequenceTest {
     public void addAfterNoCurrent() {
         String[] items = new String[]{};
         Sequence sequence = makeSequence(items);
-        sequence.addBefore("X");
+        sequence.addAfter("X");
 
         assertTrue(sequence.isCurrent());
-        //assertEquals("X", sequence.getCurrent());
+        assertEquals(0, sequence.getCurrentIndex());
+        assertEquals("X", sequence.getCurrent());
         assertEquals(1, sequence.size());
         assertEquals(10, sequence.getCapacity());
     }
@@ -308,23 +309,22 @@ public class SequenceTest {
 
         assertTrue(sequence.equals(cloneSequence)); //tests below are to ensure clone worked in case equals is not working properly
 
-        //assertEquals("2", sequence.getCurrent());
+        assertEquals("2", sequence.getCurrent());
         assertEquals(10, sequence.getCapacity());
         assertEquals(3, sequence.size());
-        //assertEquals("2", cloneSequence.getCurrent());
+        assertEquals("2", cloneSequence.getCurrent());
         assertEquals(10, cloneSequence.getCapacity());
         assertEquals(3, cloneSequence.size());
     }
 
     @Test //Tests removeCurrent; removes the current element in a sequence that has a current element
-    public void removeCurrentWithCurrent() {
+    public void removeCurrentWithCurrentFirst() {
         String[] items = new String[]{"3", "2", "1"};
         Sequence sequence = makeSequence(items);
-        sequence.advance();
 
         sequence.removeCurrent();
 
-        //assertEquals("3", sequence.getCurrent());
+        assertEquals(0, sequence.getCurrentIndex());
         assertEquals(2, sequence.size());
     }
 
@@ -339,6 +339,7 @@ public class SequenceTest {
         sequence.removeCurrent();
 
         //assertNull(sequence.getCurrent());
+        assertEquals(-1, sequence.getCurrentIndex());
         assertEquals(3, sequence.size());
     }
 

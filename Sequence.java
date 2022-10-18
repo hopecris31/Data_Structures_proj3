@@ -1,5 +1,20 @@
 package proj3;  // Gradescope needs this.
 /**
+ *Hope Crisafi
+ *CS 151 Project 2
+ *Oct 4, 2022
+ *
+ *A class that represents a sequence ADT. Holds items of the same type.
+ *Items in sequence are accessed via a "current" marker, and not by index
+ *
+ *INVARIANTS:
+ * - If there's no current index, current = -1
+ * - size = holder.length
+ * - -1 < current < size
+ * -If size > 0, the contents are stored in holder at indexes 0 to size-1 and the
+ *      contents of the indexes >= size are irrelevant
+ * - If size = 0, the contents are irrelevant
+ * - 0 <= size <= capacity
  *
  */
 public class Sequence
@@ -62,10 +77,8 @@ public class Sequence
             if(!this.isCurrent()){
                 this.setCurrentIndex(START);
             }
-            //this.holder.insertBefore()
             this.holder.addAtIndex(this.getCurrentIndex(), value);
         }
-        //this.setCurrentIndex();
     }
 
     private void capacityReached() {
@@ -188,7 +201,9 @@ public class Sequence
             if (endOfSequenceReached()) { // if the current index is at the end of the sequence
                 this.currentIndex = NO_INDEX;  //is this.getCapacity()-1 the best way to express "at the last index"
             }
-            this.currentIndex +=1;
+            else{
+                this.currentIndex +=1;
+            }
         }
     }
 
@@ -197,7 +212,7 @@ public class Sequence
     }
 
     private int getLastIndex(){
-        return getCapacity()-1;
+        return this.size()-1;
     }
     
     /**
@@ -213,7 +228,7 @@ public class Sequence
     public Sequence clone()
     {
         Sequence sequenceCopy = new Sequence(this.getCapacity());
-        sequenceCopy.holder.clone();
+        sequenceCopy.holder = this.holder.clone();
         sequenceCopy.currentIndex = this.getCurrentIndex();
 
         return sequenceCopy;
@@ -230,11 +245,17 @@ public class Sequence
      */
     public void removeCurrent() {
         if(this.isCurrent()){
-            if(this.endOfSequenceReached()){
-                this.setCurrentIndex(NO_INDEX);
+            if(!this.endOfSequenceReached()){
+                if(this.getCurrentIndex() == START){
+                    this.holder.removeAtHead();
+                }
+                else{
+                    this.holder.removeAtIndex(this.getCurrentIndex());
+                }
             }
             else{
-                this.holder.removeAtIndex(this.currentIndex);
+                this.setCurrentIndex(NO_INDEX);
+                this.holder.removeAtIndex(this.size()-1);
             }
         }
     }
@@ -289,9 +310,26 @@ public class Sequence
      * 
      * @return a string representation of this sequence.
      */
-    public String toString() 
-    {
-        return"";
+    public String toString() {
+        String sequenceString = "{";
+        if(!this.isEmpty()){
+            for(int i = 0; i < this.size(); i++){
+                if(i == this.currentIndex) {
+                    sequenceString += ">";
+                    sequenceString += this.holder.getDataAtIndex(i);
+                    if(i+1 != this.size()){
+                        sequenceString += ", ";
+                    }
+                }
+                else{
+                    sequenceString += this.holder.getDataAtIndex(i);
+                    if(i+1 != this.size()){
+                        sequenceString += ", ";
+                    }
+                }
+            }
+        }
+        return sequenceString += "} (capacity = " + this.getCapacity() + ")";
     }
     
     /**
@@ -321,8 +359,7 @@ public class Sequence
      * 
      * @return true if Sequence empty, else false
      */
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return this.holder.isEmpty();
     }
     
