@@ -276,6 +276,7 @@ public class LinkedListTests {
         LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertAtEnd("X");
+        System.out.println(ll.toString());
 
         assertTrue(ll.equals(correct));
     }
@@ -380,6 +381,21 @@ public class LinkedListTests {
         String[] otherItems = {"3", "2", "1"};
         LinkedList other = makeLinkedList(otherItems);
         String[] correctItems = {"3", "2", "1", "C", "B", "A"};
+        LinkedList correct = makeLinkedList(correctItems);
+
+        System.out.println(correct.toString());
+        ll.addAll(other);
+
+        assertTrue(ll.equals(correct));
+    }
+
+    @Test //Tests addAll;
+    public void addAllTestFirstIndex(){
+        String[] items = {"A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] otherItems = {"3", "2", "1"};
+        LinkedList other = makeLinkedList(otherItems);
+        String[] correctItems = {"3", "2", "1", "A"};
         LinkedList correct = makeLinkedList(correctItems);
 
         System.out.println(correct.toString());

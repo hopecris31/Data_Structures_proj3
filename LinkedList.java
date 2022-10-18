@@ -1,12 +1,21 @@
 package proj3;
 
 /**
- *  Fill this in.  Really.  And the methods too.
+ * LinkedList class: represents a Linked List
+ *
+ *  INVARIANTS:
+ *  -size must always equal the number of nodes in the list
+ *  -the last node points to null
+ *  -the first node points to the first node in the list
+ *      -if length is equal to 0, the first node points to null
+ *  -list node next refers to the next node in the list
  */
 public class LinkedList
 {
     private int length;
     private ListNode firstNode;
+
+    private final int EMPTY = 0;
 
 
     public LinkedList()
@@ -15,13 +24,17 @@ public class LinkedList
         firstNode = null;
     }
 
-    public int getLength()
-    {
+    public int getLength() {
         return this.length;
     }
 
+    private ListNode getFirstNode() {
+        return this.firstNode;
+    }
+
+
     public boolean isEmpty(){
-        return firstNode == null;
+        return this.length == 0;
     }
 
     private void setFirst(ListNode head){
@@ -94,7 +107,7 @@ public class LinkedList
                     newNode.next = null;
                 }
                 else {
-                    newNode.next = runner.next;
+                    newNode.next = runner.getNext();
                 }
                 runner.next = newNode;
                 length++;
@@ -114,7 +127,7 @@ public class LinkedList
             if(runner != null){
                 ListNode newNode = new ListNode(data);
                 if(isHead(nextData)) {//if at beginning of list
-                    newNode.setNext(this.firstNode);
+                    newNode.next = this.getFirstNode();
                     this.firstNode = newNode;
                 }
                 else {
@@ -139,13 +152,13 @@ public class LinkedList
             runner = runner.getNext();
         }
         if(runner != null){
-            if(runner == this.firstNode){ //if trying to remove the first node
-                setFirst(runner.next);
+            if(runner == this.getFirstNode()){ //if trying to remove the first node
+                this.firstNode = runner.next;
             }
             else{
                 prev.setNext(runner.next);
             }
-            runner.setNext(null);  //Is this needed, to set the removed item's pointer to null
+            runner.next = null;  //Is this needed, to set the removed item's pointer to null
             length--;
         }
     }
@@ -155,12 +168,12 @@ public class LinkedList
     }
 
     public void clear(){
-        this.setLength(0);
-        this.setFirst(null);
+        this.length = EMPTY;
+        this.firstNode = null;
     }
 
     public boolean contains(String data){
-        ListNode runner = this.firstNode;
+        ListNode runner = this.getFirstNode();
         while(runner != null){
             if(runner.getData().equals(data)){
                 return true;
@@ -172,7 +185,7 @@ public class LinkedList
 
     public LinkedList clone(){
         LinkedList cloneList = new LinkedList();
-        cloneList.setFirst(this.firstNode);
+        cloneList.setFirst(this.getFirstNode());
         cloneList.setLength(this.getLength());
         return cloneList;
     }
@@ -186,7 +199,7 @@ public class LinkedList
 
     public void removeAtHead(){
         if(!this.isEmpty()){
-            this.setFirst(firstNode.next);
+            this.firstNode = firstNode.getNext();
             length--;
         }
     }
@@ -201,9 +214,14 @@ public class LinkedList
         this.length += toAdd.getLength();
     }
 
+    /**
+     * gets the index of the first instance of given data
+     * @param data index of data to find
+     * @return the index of the data
+     */
     public int getIndex(String data){
         if(!isEmpty()){
-            ListNode runner = this.firstNode;
+            ListNode runner = this.getFirstNode();
             int count = 0;
             while(runner != null && !runner.getData().equals(data)){
                 runner = runner.next;
@@ -218,7 +236,7 @@ public class LinkedList
 
     public String getDataAtIndex(int index){
         if(!isEmpty()){
-            ListNode runner = this.firstNode;
+            ListNode runner = this.getFirstNode();
             int count = 0;
             while(runner != null && count != index){
                 runner = runner.next;
@@ -238,7 +256,7 @@ public class LinkedList
             int currIndex = 0;
             while(runner != null && currIndex != index){
                 prev = runner;
-                runner = runner.next;
+                runner = runner.getNext();
                 currIndex++;
             }
             if(runner != null){
@@ -266,7 +284,7 @@ public class LinkedList
                 currIndex++;
             }
             if(runner != null){
-                prev.setNext(runner.next);
+                prev.next = runner.getNext();
                 length--;
             }
         }

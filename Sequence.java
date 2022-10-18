@@ -1,6 +1,6 @@
 package proj3;  // Gradescope needs this.
 /**
- *  I'd fill this in if I were you.  Now.
+ *
  */
 public class Sequence
 {
@@ -8,9 +8,10 @@ public class Sequence
 	private LinkedList holder;
     private final int DEFAULT_CAPACITY = 10;
     private int capacity;
-    private int items; //the number of items in the holder
     private int currentIndex;
     private final int NO_INDEX = -1;
+
+    private final int START = 0;
 
 	
     /**
@@ -20,7 +21,6 @@ public class Sequence
     	this.holder = new LinkedList();
         this.capacity = DEFAULT_CAPACITY;
         this.currentIndex = NO_INDEX;
-        this.items = this.holder.getLength();
     }
     
 
@@ -33,7 +33,10 @@ public class Sequence
         this.holder = new LinkedList();
         this.capacity = initialCapacity;
         this.currentIndex = NO_INDEX;
-        this.items = this.holder.getLength();
+    }
+
+    public int getCurrentIndex(){
+        return this.currentIndex;
     }
     
 
@@ -50,25 +53,20 @@ public class Sequence
      * @param value the string to add.
      */
     public void addBefore(String value) {
+        this.capacityReached();
         if(this.isEmpty()){
             this.holder.insertAtHead(value);
-            this.setCurrentIndex(0);
-            this.items++;
+            this.setCurrentIndex(START);
         }
         else{
             if(!this.isCurrent()){
-                this.setCurrentIndex(0);
-            }
-            else{
-                this.capacityReached();
+                this.setCurrentIndex(START);
             }
             //this.holder.insertBefore()
-            this.holder.addAtIndex(currentIndex, value);
-            this.items++;
+            this.holder.addAtIndex(this.getCurrentIndex(), value);
         }
         //this.setCurrentIndex();
     }
-
 
     private void capacityReached() {
         if(this.size() == this.getCapacity()){
@@ -94,14 +92,23 @@ public class Sequence
      * @param value the string to add.
      */
     public void addAfter(String value) {
+        this.capacityReached();
+        if(!this.isCurrent()){
+            this.setCurrentIndex(this.size());
+            this.holder.insertAtEnd(value);
+        }
+        else{
+            this.setCurrentIndex(getCurrentIndex()+1);
+            this.holder.insertAfter(value, getCurrent());
+        }
     }
 
-    
+
     /**
      * @return true if and only if the sequence has a current element.
      */
     public boolean isCurrent() {
-        return this.currentIndex != NO_INDEX;
+        return this.getCurrentIndex() != NO_INDEX;
     }
     
     
@@ -121,7 +128,7 @@ public class Sequence
     public String getCurrent()
     {
         if (isCurrent()){
-            return this.holder.getDataAtIndex(currentIndex); //is this an appropriate helper method
+            return this.holder.getDataAtIndex(this.getCurrentIndex()); //is this an appropriate helper method
         }
         else{
             return null;
@@ -160,7 +167,10 @@ public class Sequence
      * @param another the sequence whose contents should be added.
      */
     public void addAll(Sequence another) {
-
+        if(this.size()+another.size() > this.getCapacity()){
+            this.ensureCapacity(this.size()+another.size());
+        }
+        this.holder.addAll(another.holder);
     }
 
     
@@ -176,7 +186,7 @@ public class Sequence
     public void advance() {
         if(isCurrent()) {
             if (endOfSequenceReached()) { // if the current index is at the end of the sequence
-                this.setCurrentIndex(NO_INDEX);  //is this.getCapacity()-1 the best way to express "at the last index"
+                this.currentIndex = NO_INDEX;  //is this.getCapacity()-1 the best way to express "at the last index"
             }
             this.currentIndex +=1;
         }
@@ -202,7 +212,11 @@ public class Sequence
      */
     public Sequence clone()
     {
-        return null;
+        Sequence sequenceCopy = new Sequence(this.getCapacity());
+        sequenceCopy.holder.clone();
+        sequenceCopy.currentIndex = this.getCurrentIndex();
+
+        return sequenceCopy;
     }
    
     
@@ -215,15 +229,22 @@ public class Sequence
      * If there is no current element, does nothing.
      */
     public void removeCurrent() {
+        if(this.isCurrent()){
+            if(this.endOfSequenceReached()){
+                this.setCurrentIndex(NO_INDEX);
+            }
+            else{
+                this.holder.removeAtIndex(this.currentIndex);
+            }
+        }
     }
 
     
     /**
      * @return the number of elements stored in the sequence.
      */
-    public int size()
-    {
-        return this.items;
+    public int size() {
+        return this.holder.getLength();
     }
 
     
@@ -236,7 +257,7 @@ public class Sequence
             this.setCurrentIndex(NO_INDEX);
         }
         else{
-            this.setCurrentIndex(0);
+            this.setCurrentIndex(START);
         }
     }
 
@@ -246,7 +267,10 @@ public class Sequence
      * capacity to store only the elements currently stored.
      */
     public void trimToSize() {
-        this.capacity = this.items;
+        if(this.getCapacity() > this.size()){
+            this.capacity = this.size();
+        }
+
     }
     
     
@@ -286,16 +310,10 @@ public class Sequence
      */
     public boolean equals(Sequence other) 
     {
-        if(this.size() != other.size()) {
+        if (this.getCurrentIndex() != other.getCurrentIndex()){
             return false;
         }
-        if (this.currentIndex != other.currentIndex){
-            return false;
-        }
-        if (!this.holder.equals(other.holder)){
-            return false;
-        }
-        return true;
+        return this.holder.equals(other.holder);
     }
     
     
@@ -305,7 +323,7 @@ public class Sequence
      */
     public boolean isEmpty()
     {
-        return this.size() == 0;
+        return this.holder.isEmpty();
     }
     
     
@@ -313,8 +331,8 @@ public class Sequence
      *  empty the sequence.  There should be no current element.
      */
     public void clear() {
-        this.items = 0;
         this.currentIndex = NO_INDEX;
+        this.holder.clear();
     }
 
 }

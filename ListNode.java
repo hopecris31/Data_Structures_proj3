@@ -1,14 +1,13 @@
 package proj3;
 
-import java.util.Objects;
 
 /**
  * The ListNode class is more data-specific than the LinkedList class.  It
  * details what a single node looks like.  This node has one data field,
  * holding a pointer to a String object. 
  *
- * This is the only class where I'll let you use public instance variables.
- * 
+ *INVARINAT:
+ * -each node contains data and a reference to the next node in a list
  */
 public class ListNode
 {
@@ -25,22 +24,8 @@ public class ListNode
         return this.data;
     }
 
-    public void setData(String new_data){
-        this.data = new_data;
-    }
-
     public void setNext(ListNode nextNode){
         this.next = nextNode;
-    }
-
-    public boolean equals(ListNode other){
-        if(!this.data.equals(other.data)){
-            return false;
-        }
-        if(!Objects.equals(this.next, other.next)){
-            return false;
-        }
-        return true;
     }
 
     public String toString(){
