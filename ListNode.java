@@ -24,6 +24,10 @@ public class ListNode
         return this.data;
     }
 
+    public void setData(String data){
+        this.data = data;
+    }
+
     public void setNext(ListNode nextNode){
         this.next = nextNode;
     }

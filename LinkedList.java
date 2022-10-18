@@ -96,7 +96,7 @@ public class LinkedList
 
     public void insertAfter(String prevData, String data){
         if(!this.isEmpty()){
-            ListNode runner = this.firstNode;
+            ListNode runner = this.getFirstNode();
 
             while(runner != null && !runner.getData().equals(prevData)){
                 runner = runner.getNext();
@@ -183,9 +183,17 @@ public class LinkedList
         return false;
     }
 
+
     public LinkedList clone(){
         LinkedList cloneList = new LinkedList();
-        cloneList.setFirst(this.getFirstNode());
+        ListNode runner = this.getFirstNode();
+        while(runner != null){
+            cloneList.insertAtEnd(runner.getData());
+            if(runner.getNext() == null){
+                runner.setNext(null);
+            }
+            runner = runner.getNext();
+        }
         cloneList.setLength(this.getLength());
         return cloneList;
     }

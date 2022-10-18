@@ -16,6 +16,12 @@ package proj3;  // Gradescope needs this.
  * - If size = 0, the contents are irrelevant
  * - 0 <= size <= capacity
  *
+ *  INSTANCE VARIABLES:
+ *     holder -- the String array that holds the items
+ *     items -- the number of elements currently in the Sequence
+ *     currentIndex -- the current index of the holder
+ *     capacity -- the capacity of the sequence
+ *
  */
 public class Sequence
 {
@@ -104,7 +110,7 @@ public class Sequence
      *
      * @param value the string to add.
      */
-    public void addAfter(String value) {
+    public void addAfter1(String value) {
         this.capacityReached();
         if(!this.isCurrent()){
             this.setCurrentIndex(this.size());
@@ -113,6 +119,18 @@ public class Sequence
         else{
             this.setCurrentIndex(getCurrentIndex()+1);
             this.holder.insertAfter(value, getCurrent());
+        }
+    }
+
+    public void addAfter(String value) {
+        this.capacityReached();
+        if(!this.isCurrent()){
+            this.setCurrentIndex(this.size());
+            this.holder.insertAtEnd(value);
+        }
+        else{
+            this.holder.insertAfter(getCurrent(), value);
+            this.setCurrentIndex(getCurrentIndex()+1);
         }
     }
 
@@ -232,7 +250,6 @@ public class Sequence
         int newCurrentIndex = this.getCurrentIndex();
         sequenceCopy.holder = newHolder;
         sequenceCopy.currentIndex = newCurrentIndex;
-        sequenceCopy.holder.addAll(this.holder);
 
         return sequenceCopy;
     }

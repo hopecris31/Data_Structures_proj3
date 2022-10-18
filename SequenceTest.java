@@ -53,9 +53,9 @@ public class SequenceTest {
     @Test //Test non-default constructor, make empty sequence with capacity of 15
     public void nonDefaultConstructor(){
         Sequence sequence = new Sequence(15);
-        assertEquals(15, sequence.getCapacity()); //capacity should be 10
-        assertTrue(sequence.isEmpty()); //sequence should contain no elements
-        assertNull(sequence.getCurrent()); //current index should be -1
+        assertEquals(15, sequence.getCapacity());
+        assertTrue(sequence.isEmpty());
+        assertNull(sequence.getCurrent());
     }
 
     @Test //Test addBefore; no current element(added to beginning, new currIndex)
@@ -90,7 +90,7 @@ public class SequenceTest {
         sequence.addBefore("X");
 
         assertTrue(sequence.isCurrent());
-        //assertEquals("X", sequence.getCurrent());
+        assertEquals("X", sequence.getCurrent());
         assertEquals(4, sequence.size());
         assertEquals(4, sequence.getCapacity());
     }
@@ -102,7 +102,7 @@ public class SequenceTest {
         sequence.addBefore("X");
 
         assertTrue(sequence.isCurrent());
-        //assertEquals("X", sequence.getCurrent());
+        assertEquals("X", sequence.getCurrent());
         assertEquals(1, sequence.size());
         assertEquals(10, sequence.getCapacity());
     }
@@ -124,10 +124,10 @@ public class SequenceTest {
     public void addAfterCapacityReached() {
         String[] items = new String[]{"3", "2", "1"};
         Sequence sequence = makeSequence(items, 3);
-        sequence.addBefore("X");
+        sequence.addAfter("X");
 
         assertTrue(sequence.isCurrent());
-        //assertEquals("X", sequence.getCurrent());
+        assertEquals("X", sequence.getCurrent());
         assertEquals(4, sequence.size());
         assertEquals(7, sequence.getCapacity());
     }
@@ -136,10 +136,10 @@ public class SequenceTest {
     public void addAfterEnoughCapacity() {
         String[] items = new String[]{"3", "2", "1"};
         Sequence sequence = makeSequence(items);
-        sequence.addBefore("X");
+        sequence.addAfter("X");
 
         assertTrue(sequence.isCurrent());
-        //assertEquals("X", sequence.getCurrent());
+        assertEquals("X", sequence.getCurrent());
         assertEquals(4, sequence.size());
         assertEquals(10, sequence.getCapacity());
     }
@@ -174,7 +174,7 @@ public class SequenceTest {
         String[] items = new String[]{};
         Sequence sequence = makeSequence(items);
 
-        //assertNull(sequence.getCurrent());
+        assertNull(sequence.getCurrent());
     }
 
     @Test //Tests getCurrent; sequence with current
@@ -182,7 +182,7 @@ public class SequenceTest {
         String[] items = new String[]{"3", "2", "1"};
         Sequence sequence = makeSequence(items);
 
-        //assertEquals("1", sequence.getCurrent());
+        assertEquals("1", sequence.getCurrent());
     }
 
     @Test //Tests ensureCapacity; not enough space so it has to expand sequence
@@ -217,7 +217,7 @@ public class SequenceTest {
 
         assertEquals(6, sequence1.size());
         assertEquals(10, sequence1.getCapacity());
-        //assertEquals("1", sequence1.getCurrent());
+        assertEquals("1", sequence1.getCurrent());
     }
 
     @Test //Tests addAll; if there is not enough space for items to be added, capacity increases
@@ -232,7 +232,7 @@ public class SequenceTest {
 
         assertEquals(6, sequence1.size());
         assertEquals(6, sequence1.getCapacity());
-        //assertEquals("1", sequence1.getCurrent());
+        assertEquals("1", sequence1.getCurrent());
     }
 
     @Test //Tests addAll; if there is enough space for items to be added
@@ -246,7 +246,7 @@ public class SequenceTest {
 
         assertEquals(3, sequence1.size());
         assertEquals(10, sequence1.getCapacity());
-        //assertNull(sequence1.getCurrent());
+        assertNull(sequence1.getCurrent());
     }
 
     @Test //Tests advance; at end of size so makes current = -1
@@ -258,7 +258,7 @@ public class SequenceTest {
         sequence.advance();
         sequence.advance();
 
-        //assertNull(sequence.getCurrent());
+        assertNull(sequence.getCurrent());
     }
 
     @Test //Tests advance; there is a current index with room to advance to a next one
@@ -269,7 +269,7 @@ public class SequenceTest {
         sequence.advance(); //advance to get current = 2
         sequence.advance();
 
-        //assertEquals("3", sequence.getCurrent());
+        assertEquals("3", sequence.getCurrent());
     }
 
     @Test //Tests advance; no current index
@@ -279,7 +279,7 @@ public class SequenceTest {
 
         sequence.advance();
 
-        //assertNull(sequence.getCurrent());
+        assertNull(sequence.getCurrent());
     }
 
     @Test //Tests clone; clone empty sequence
@@ -291,10 +291,10 @@ public class SequenceTest {
 
         assertTrue(sequence.equals(cloneSequence)); //tests below are to ensure clone worked in case equals is not working properly
 
-        //assertNull(sequence.getCurrent());
+        assertNull(sequence.getCurrent());
         assertEquals(10, sequence.getCapacity());
         assertEquals(0, sequence.size());
-        //assertNull(cloneSequence.getCurrent());
+        assertNull(cloneSequence.getCurrent());
         assertEquals(10, cloneSequence.getCapacity());
         assertEquals(0, cloneSequence.size());
     }
@@ -332,13 +332,13 @@ public class SequenceTest {
     public void removeCurrentNoCurrent() {
         String[] items = new String[]{"3", "2", "1"};
         Sequence sequence = makeSequence(items);
-        sequence.advance(); //advance 3 times to get currentIndex to equal -1
+        sequence.advance();
         sequence.advance();
         sequence.advance();
 
         sequence.removeCurrent();
 
-        //assertNull(sequence.getCurrent());
+        assertNull(sequence.getCurrent());
         assertEquals(-1, sequence.getCurrentIndex());
         assertEquals(3, sequence.size());
     }
@@ -347,12 +347,12 @@ public class SequenceTest {
     public void removeCurrentEndOfSequence() {
         String[] items = new String[]{"3", "2", "1"};
         Sequence sequence = makeSequence(items);
-        sequence.advance(); //advance 2 times to get currentIndex at end of sequence
+        sequence.advance();
         sequence.advance();
 
         sequence.removeCurrent();
 
-        //assertNull(sequence.getCurrent());
+        assertNull(sequence.getCurrent());
         assertEquals(2, sequence.size());
     }
 
@@ -363,7 +363,7 @@ public class SequenceTest {
 
         sequence.removeCurrent();
 
-        //assertNull(sequence.getCurrent());
+        assertNull(sequence.getCurrent());
         assertEquals(0, sequence.size());
     }
 
@@ -382,7 +382,7 @@ public class SequenceTest {
 
         sequence.start();
 
-        //assertNull(sequence.getCurrent());
+        assertNull(sequence.getCurrent());
     }
 
     @Test //Tests start; called upon a sequence with items, but no current index
@@ -395,7 +395,7 @@ public class SequenceTest {
 
         sequence.start();
 
-        //assertEquals("1", sequence.getCurrent());
+        assertEquals("1", sequence.getCurrent());
     }
 
     @Test //Tests trimToSize; given a sequence with remaining capacity, the capacity should be reduced to the size
@@ -544,7 +544,7 @@ public class SequenceTest {
         sequence.clear();
 
         assertEquals(0, sequence.size());
-        //assertNull(sequence.getCurrent());
+        assertNull(sequence.getCurrent());
     }
 
     @Test //Tests clear; sequence has items and a current element
@@ -557,7 +557,7 @@ public class SequenceTest {
         sequence.clear();
 
         assertEquals(0, sequence.size());
-        //assertNull(sequence.getCurrent());
+        assertNull(sequence.getCurrent());
     }
 
     @Test //Tests clear; sequence has items but no current element
@@ -568,7 +568,7 @@ public class SequenceTest {
         sequence.clear();
 
         assertEquals(0, sequence.size());
-        //assertNull(sequence.getCurrent());
+        assertNull(sequence.getCurrent());
     }
 
 }
