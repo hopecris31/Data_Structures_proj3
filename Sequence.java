@@ -228,8 +228,11 @@ public class Sequence
     public Sequence clone()
     {
         Sequence sequenceCopy = new Sequence(this.getCapacity());
-        sequenceCopy.holder = this.holder.clone();
-        sequenceCopy.currentIndex = this.getCurrentIndex();
+        LinkedList newHolder = this.holder.clone();
+        int newCurrentIndex = this.getCurrentIndex();
+        sequenceCopy.holder = newHolder;
+        sequenceCopy.currentIndex = newCurrentIndex;
+        sequenceCopy.holder.addAll(this.holder);
 
         return sequenceCopy;
     }
