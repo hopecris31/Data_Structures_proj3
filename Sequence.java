@@ -1,17 +1,18 @@
-package proj3;  // Gradescope needs this.
+package proj3;
+
 /**
  *Hope Crisafi
- *CS 151 Project 2
- *Oct 4, 2022
+ *CS 151 Project 3
+ *Oct 18, 2022
  *
- *A class that represents a sequence ADT. Holds items of the same type.
- *Items in sequence are accessed via a "current" marker, and not by index
+ * A class that represents a sequence ADT. Holds items of the same type.
+ * Items in sequence are accessed via a "current" marker
  *
  *INVARIANTS:
  * - If there's no current index, current = -1
  * - size = holder.length
  * - -1 < current < size
- * -If size > 0, the contents are stored in holder at indexes 0 to size-1 and the
+ * - If size > 0, the contents are stored in holder at indexes 0 to size-1 and the
  *      contents of the indexes >= size are irrelevant
  * - If size = 0, the contents are irrelevant
  * - 0 <= size <= capacity
@@ -22,7 +23,12 @@ package proj3;  // Gradescope needs this.
  *     currentIndex -- the current index of the holder
  *     capacity -- the capacity of the sequence
  *
+ * I affirm that I have carried out the attached academic endeavors with full
+ * academic honesty, in accordance with the Union College Honor Code and the course
+ * syllabus.
+ *
  */
+
 public class Sequence
 {
 
@@ -46,7 +52,7 @@ public class Sequence
     
 
     /**
-     * Creates a new sequence.
+     * Creates a new sequence with specified capacity.
      * 
      * @param initialCapacity the initial capacity of the sequence.
      */
@@ -56,6 +62,10 @@ public class Sequence
         this.currentIndex = NO_INDEX;
     }
 
+
+    /**
+     * @return the current index of the sequence
+     */
     public int getCurrentIndex(){
         return this.currentIndex;
     }
@@ -77,24 +87,14 @@ public class Sequence
         this.capacityReached();
         if(this.isEmpty()){
             this.holder.insertAtHead(value);
-            this.setCurrentIndex(START);
+            this.currentIndex = START;
         }
         else{
             if(!this.isCurrent()){
-                this.setCurrentIndex(START);
+                this.currentIndex = START;
             }
-            this.holder.addAtIndex(this.getCurrentIndex(), value);
+            this.holder.insertAtIndex(this.getCurrentIndex(), value);
         }
-    }
-
-    private void capacityReached() {
-        if(this.size() == this.getCapacity()){
-            this.ensureCapacity((this.getCapacity()*2)+1);
-        }
-    }
-
-    private void setCurrentIndex(int newIndex) {
-        this.currentIndex = newIndex;
     }
 
 
@@ -110,27 +110,15 @@ public class Sequence
      *
      * @param value the string to add.
      */
-    public void addAfter1(String value) {
-        this.capacityReached();
-        if(!this.isCurrent()){
-            this.setCurrentIndex(this.size());
-            this.holder.insertAtEnd(value);
-        }
-        else{
-            this.setCurrentIndex(getCurrentIndex()+1);
-            this.holder.insertAfter(value, getCurrent());
-        }
-    }
-
     public void addAfter(String value) {
         this.capacityReached();
         if(!this.isCurrent()){
-            this.setCurrentIndex(this.size());
+            this.currentIndex = this.size();
             this.holder.insertAtEnd(value);
         }
         else{
             this.holder.insertAfter(getCurrent(), value);
-            this.setCurrentIndex(getCurrentIndex()+1);
+            this.currentIndex += 1;
         }
     }
 
@@ -146,8 +134,7 @@ public class Sequence
     /**
      * @return the capacity of the sequence.
      */
-    public int getCapacity()
-    {
+    public int getCapacity() {
         return this.capacity;
     }
 
@@ -159,7 +146,7 @@ public class Sequence
     public String getCurrent()
     {
         if (isCurrent()){
-            return this.holder.getDataAtIndex(this.getCurrentIndex()); //is this an appropriate helper method
+            return this.holder.getDataAtIndex(this.getCurrentIndex());
         }
         else{
             return null;
@@ -216,8 +203,8 @@ public class Sequence
      */
     public void advance() {
         if(isCurrent()) {
-            if (endOfSequenceReached()) { // if the current index is at the end of the sequence
-                this.currentIndex = NO_INDEX;  //is this.getCapacity()-1 the best way to express "at the last index"
+            if (endOfSequenceReached()) {
+                this.currentIndex = NO_INDEX;
             }
             else{
                 this.currentIndex +=1;
@@ -225,14 +212,7 @@ public class Sequence
         }
     }
 
-    private boolean endOfSequenceReached(){
-        return this.currentIndex == getLastIndex();
-    }
 
-    private int getLastIndex(){
-        return this.size()-1;
-    }
-    
     /**
      * Make a copy of this sequence.  Subsequence changes to the copy
      * do not affect the current sequence, and vice versa.
@@ -247,9 +227,8 @@ public class Sequence
     {
         Sequence sequenceCopy = new Sequence(this.getCapacity());
         LinkedList newHolder = this.holder.clone();
-        int newCurrentIndex = this.getCurrentIndex();
         sequenceCopy.holder = newHolder;
-        sequenceCopy.currentIndex = newCurrentIndex;
+        sequenceCopy.currentIndex = this.getCurrentIndex();
 
         return sequenceCopy;
     }
@@ -265,17 +244,15 @@ public class Sequence
      */
     public void removeCurrent() {
         if(this.isCurrent()){
-            if(!this.endOfSequenceReached()){
-                if(this.getCurrentIndex() == START){
-                    this.holder.removeAtHead();
-                }
-                else{
-                    this.holder.removeAtIndex(this.getCurrentIndex());
-                }
+            if(this.endOfSequenceReached()) {
+                this.currentIndex = NO_INDEX;
+                this.holder.removeLast();
+            }
+            else if(this.getCurrentIndex() == START){
+                this.holder.removeAtHead();
             }
             else{
-                this.setCurrentIndex(NO_INDEX);
-                this.holder.removeAtIndex(this.size()-1);
+                this.holder.removeAtIndex(this.getCurrentIndex());
             }
         }
     }
@@ -295,10 +272,10 @@ public class Sequence
      */
     public void start() {
         if(this.isEmpty()){
-            this.setCurrentIndex(NO_INDEX);
+            this.currentIndex = NO_INDEX;
         }
         else{
-            this.setCurrentIndex(START);
+            this.currentIndex = START;
         }
     }
 
@@ -332,26 +309,19 @@ public class Sequence
      */
     public String toString() {
         String sequenceString = "{";
-        if(!this.isEmpty()){
-            for(int i = 0; i < this.size(); i++){
-                if(i == this.currentIndex) {
-                    sequenceString += ">";
-                    sequenceString += this.holder.getDataAtIndex(i);
-                    if(i+1 != this.size()){
-                        sequenceString += ", ";
-                    }
-                }
-                else{
-                    sequenceString += this.holder.getDataAtIndex(i);
-                    if(i+1 != this.size()){
-                        sequenceString += ", ";
-                    }
-                }
+        for(int i = 0; i < this.size(); i++){
+            if(i == this.getCurrentIndex()) {
+                sequenceString += ">";
+            }
+            sequenceString += this.holder.getDataAtIndex(i);
+            if(i+1 != this.size()){
+                sequenceString += ", ";
             }
         }
         return sequenceString += "} (capacity = " + this.getCapacity() + ")";
     }
-    
+
+
     /**
      * Checks whether another sequence is equal to this one.  To be
      * considered equal, the other sequence must have the same size
@@ -390,6 +360,39 @@ public class Sequence
     public void clear() {
         this.currentIndex = NO_INDEX;
         this.holder.clear();
+    }
+
+
+    /** ------------------------------
+     *  PRIVATE HELPER METHODS 🥰🥰🥰
+     * _______________________________
+     */
+
+
+    /**
+     * returns true if the capacity of the sequence has been reached
+     */
+    private void capacityReached() {
+        if(this.size() == this.getCapacity()){
+            this.ensureCapacity((this.getCapacity()*2)+1);
+        }
+    }
+
+
+    /**
+     * @return True if the end of the sequence has been reached, False if not
+     */
+    private boolean endOfSequenceReached(){
+        return this.currentIndex == getLastIndex();
+    }
+
+
+    /**
+     * gets the last index in a sequence
+     * @return the last index of a sequence
+     */
+    private int getLastIndex(){
+        return this.size()-1;
     }
 
 }

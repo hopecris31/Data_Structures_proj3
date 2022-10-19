@@ -1,7 +1,9 @@
 package proj3;
+
 /**
- * JUnit test class.  Tests the constructors and public methods for the Sequence class.
+ * JUnit test class.  Tests the constructors and public methods for the LinkedList class.
  */
+
 import org.junit.*;
 import org.junit.rules.Timeout;
 import static org.junit.Assert.*;
@@ -9,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class LinkedListTests {
 
-    @Rule // a test will fail if it takes longer than 1/10 of a second to run
+    @Rule
     public Timeout timeout = Timeout.millis(100);
 
 
@@ -44,7 +46,7 @@ public class LinkedListTests {
         assertEquals(3, ll.getLength());
     }
 
-    @Test //Tests getLength;
+    @Test //Tests isEmpty; true
     public void isEmptyTestTrue(){
         String[] items = {};
         LinkedList ll = makeLinkedList(items);
@@ -52,7 +54,7 @@ public class LinkedListTests {
         assertTrue(ll.isEmpty());
     }
 
-    @Test //Tests getLength;
+    @Test //Tests isEmpty; false
     public void isEmptyTestFalse(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
@@ -218,7 +220,7 @@ public class LinkedListTests {
     }
 
     @Test //Tests remove; removes the node at the head. The node after becomes the head
-    public void removeAtHead(){
+    public void removeHead(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
         String[] correctItems = {"C", "B"};
@@ -240,7 +242,7 @@ public class LinkedListTests {
     }
 
 
-    @Test
+    @Test //Tests remove; removes the last element in the list
     public void removeLastElement(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
@@ -276,7 +278,6 @@ public class LinkedListTests {
         LinkedList correct = makeLinkedList(correctItems);
 
         ll.insertAtEnd("X");
-        System.out.println(ll.toString());
 
         assertTrue(ll.equals(correct));
     }
@@ -344,7 +345,6 @@ public class LinkedListTests {
         String[] correctItems = { "B", "A", "C"};
         LinkedList correct = makeLinkedList(correctItems);
 
-
         ll.removeLast();
 
         assertTrue(ll.equals(correct));
@@ -383,7 +383,6 @@ public class LinkedListTests {
         String[] correctItems = {"3", "2", "1", "C", "B", "A"};
         LinkedList correct = makeLinkedList(correctItems);
 
-        System.out.println(correct.toString());
         ll.addAll(other);
 
         assertTrue(ll.equals(correct));
@@ -398,7 +397,6 @@ public class LinkedListTests {
         String[] correctItems = {"3", "2", "1", "A"};
         LinkedList correct = makeLinkedList(correctItems);
 
-        System.out.println(correct.toString());
         ll.addAll(other);
 
         assertTrue(ll.equals(correct));
@@ -413,7 +411,6 @@ public class LinkedListTests {
         String[] correctItems = {"3", "2", "1"};
         LinkedList correct = makeLinkedList(correctItems);
 
-        System.out.println(correct.toString());
         ll.addAll(other);
 
         assertTrue(ll.equals(correct));
@@ -428,7 +425,6 @@ public class LinkedListTests {
         String[] correctItems = {"C", "B", "A"};
         LinkedList correct = makeLinkedList(correctItems);
 
-        System.out.println(correct.toString());
         ll.addAll(other);
 
         assertTrue(ll.equals(correct));
@@ -466,50 +462,50 @@ public class LinkedListTests {
         assertEquals(-1, ll.getIndex("X"));
     }
 
-    @Test //Tests addAtIndex; the item is added at specified index, and all following elements have +1 index
-    public void addAtIndex(){
+    @Test //Tests insertAtIndex; the item is added at specified index, and all following elements have +1 index
+    public void insertAtIndex(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
         String[] correctItems = {"C", "X", "B", "A"};
         LinkedList correct = makeLinkedList(correctItems);
 
-        ll.addAtIndex(2, "X");
+        ll.insertAtIndex(2, "X");
 
         assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests addAtIndex; adds to the first index
-    public void addAtIndexFirst(){
+    @Test //Tests insertAtIndex; adds to the first index
+    public void insertAtIndexFirst(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
         String[] correctItems = {"C", "B", "A", "X"};
         LinkedList correct = makeLinkedList(correctItems);
 
-        ll.addAtIndex(0, "X");
+        ll.insertAtIndex(0, "X");
 
         assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests addAtIndex; called on empty list
-    public void addAtIndexEmpty(){
+    @Test //Tests insertAtIndex; called on empty list
+    public void insertAtIndexEmpty(){
         String[] items = {};
         LinkedList ll = makeLinkedList(items);
         String[] correctItems = {};
         LinkedList correct = makeLinkedList(correctItems);
 
-        ll.addAtIndex(2, "X");
+        ll.insertAtIndex(2, "X");
 
         assertTrue(ll.equals(correct));
     }
 
-    @Test //Tests addAtIndex; tries to add at an index that is not in the list, does nothing
-    public void addAtIndexNotInList(){
+    @Test //Tests insertAtIndex; tries to add at an index that is not in the list, does nothing
+    public void insertAtIndexNotInList(){
         String[] items = {"C", "B", "A"};
         LinkedList ll = makeLinkedList(items);
         String[] correctItems = {"C", "B", "A"};
         LinkedList correct = makeLinkedList(correctItems);
 
-        ll.addAtIndex(10, "X");
+        ll.insertAtIndex(10, "X");
 
         assertTrue(ll.equals(correct));
     }
@@ -573,4 +569,52 @@ public class LinkedListTests {
 
         assertNull(ll.getDataAtIndex(2));
     }
+
+    @Test //Tests toString;
+    public void toStringTest(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+
+        assertEquals("(A, B, C)", ll.toString());
+    }
+
+    @Test //Tests toString; called on empty Linked List
+    public void toStringTestEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+
+        assertEquals("()", ll.toString());
+    }
+
+    @Test //Tests equals; two different LinkedLists
+    public void equalsTestFalse(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] items2 = {"C", "X", "A"};
+        LinkedList ll2 = makeLinkedList(items2);
+
+        assertFalse(ll.equals(ll2));
+    }
+
+    @Test //Tests equals; two different LinkedLists
+    public void equalsTestTrue(){
+        String[] items = {"C", "B", "A"};
+        LinkedList ll = makeLinkedList(items);
+        String[] items2 = {"C", "B", "A"};
+        LinkedList ll2 = makeLinkedList(items2);
+
+        assertTrue(ll.equals(ll2));
+    }
+
+    @Test //Tests equals; two different LinkedLists that are empty
+    public void equalsTestEmpty(){
+        String[] items = {};
+        LinkedList ll = makeLinkedList(items);
+        String[] items2 = {};
+        LinkedList ll2 = makeLinkedList(items2);
+
+        assertTrue(ll.equals(ll2));
+    }
+
 }
+

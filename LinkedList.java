@@ -18,33 +18,33 @@ public class LinkedList
     private final int EMPTY = 0;
 
 
-    public LinkedList()
-    {
+    /**
+     * Default LinkedList constructor
+     */
+    public LinkedList() {
         length = 0;
         firstNode = null;
     }
 
+    /**
+     * @return the length of the LinkedList
+     */
     public int getLength() {
         return this.length;
     }
 
-    private ListNode getFirstNode() {
-        return this.firstNode;
-    }
-
-
+    /**
+     * @return true if the LinkedList is empty, false if not
+     */
     public boolean isEmpty(){
         return this.length == 0;
     }
 
-    private void setFirst(ListNode head){
-        this.firstNode = head;
-    }
 
-    private void setLength(int length){
-        this.length = length;
-    }
-
+    /**
+     * inserts a given data at the head of the linkedList
+     * @param data string to insert
+     */
     public void insertAtHead(String data) {
     	ListNode newNode = new ListNode(data);
         if (this.isEmpty()){
@@ -57,6 +57,11 @@ public class LinkedList
         length++;
     }
 
+
+    /**
+     * Inserts data at the end of a LinkedList
+     * @param data string to insert
+     */
     public void insertAtEnd(String data){
         if(!this.isEmpty()){
             ListNode last = this.getLastItem();
@@ -69,31 +74,12 @@ public class LinkedList
         }
     }
 
-    private ListNode getLastItem(){
-        if(this.isEmpty()){
-            return null;
-        }
-        ListNode runner = this.firstNode;
-        while(runner.getNext() != null){
-            runner = runner.next;
-        }
-        return runner;
-    }
 
-    private ListNode getTail(){
-        if(this.isEmpty()){
-            return null;
-        }
-        ListNode runner = this.firstNode;
-        ListNode prev = null;
-        while(runner.next != null) {
-            prev = runner;
-            runner = runner.next;
-        }
-        return prev;
-    }
-
-
+    /**
+     * Inserts given data after a specified string
+     * @param prevData string of which new item is to be inserted after
+     * @param data string to be inserted
+     */
     public void insertAfter(String prevData, String data){
         if(!this.isEmpty()){
             ListNode runner = this.getFirstNode();
@@ -103,7 +89,7 @@ public class LinkedList
             }
             if(runner != null){
                 ListNode newNode = new ListNode(data);
-                if(runner.getNext() == null) { //if at the end of the sequence
+                if(runner.getNext() == null) {
                     newNode.next = null;
                 }
                 else {
@@ -115,12 +101,18 @@ public class LinkedList
         }
     }
 
+
+    /**
+     * Inserts given data before a specified string
+     * @param nextData string of which new item is to be inserted before
+     * @param data string to be inserted
+     */
     public void insertBefore(String nextData, String data){
         if(!this.isEmpty()){
             ListNode runner = this.firstNode;
             ListNode prev = null;
 
-            while(runner != null && !runner.getData().equals(nextData)){ //while not at the end and not equal to the node to insert before
+            while(runner != null && !runner.getData().equals(nextData)){
                 prev = runner;
                 runner = runner.getNext();
             }
@@ -139,6 +131,7 @@ public class LinkedList
         }
     }
 
+
     /**
      * removes the given String from the Linked List.  If there are duplicates, removes the first instance.
      * @param toRemove the String to remove
@@ -152,38 +145,48 @@ public class LinkedList
             runner = runner.getNext();
         }
         if(runner != null){
-            if(runner == this.getFirstNode()){ //if trying to remove the first node
-                this.firstNode = runner.next;
+            if(runner == this.getFirstNode()){
+                this.firstNode = runner.getNext();
             }
             else{
-                prev.setNext(runner.next);
+                prev.next = runner.getNext();
             }
-            runner.next = null;  //Is this needed, to set the removed item's pointer to null
+            runner.next = null;
             length--;
         }
     }
 
-    private boolean isHead(String data){
-        return this.firstNode.getData().equals(data);
-    }
 
+    /**
+     * clears the linkedList
+     */
     public void clear(){
         this.length = EMPTY;
         this.firstNode = null;
     }
 
+
+    /**
+     * checks to see if a LinkedList contains a given string
+     * @param data data to check if contains
+     * @return true if contains, false if not
+     */
     public boolean contains(String data){
         ListNode runner = this.getFirstNode();
         while(runner != null){
             if(runner.getData().equals(data)){
                 return true;
             }
-            runner = runner.next;
+            runner = runner.getNext();
         }
         return false;
     }
 
 
+    /**
+     * clones a LinkedList
+     * @return an exact copy of the LinkedList
+     */
     public LinkedList clone(){
         LinkedList cloneList = new LinkedList();
         ListNode runner = this.getFirstNode();
@@ -194,10 +197,14 @@ public class LinkedList
             }
             runner = runner.getNext();
         }
-        cloneList.setLength(this.getLength());
+        cloneList.length = this.getLength();
         return cloneList;
     }
 
+
+    /**
+     * removes the last item in a LinkedList
+     */
     public void removeLast(){
         if(!this.isEmpty()){
             this.getTail().setNext(null);
@@ -205,6 +212,10 @@ public class LinkedList
         }
     }
 
+
+    /**
+     * removes the item at the head of the LinkedList
+     */
     public void removeAtHead(){
         if(!this.isEmpty()){
             this.firstNode = firstNode.getNext();
@@ -212,9 +223,14 @@ public class LinkedList
         }
     }
 
+
+    /**
+     * adds all items of a given LinkedList to the current LinkedList
+     * @param toAdd LinkedList of which items are to be added
+     */
     public void addAll(LinkedList toAdd){
         if(this.isEmpty()){
-            this.setFirst(toAdd.firstNode);
+            this.firstNode = toAdd.firstNode;
         }
         else{
             this.getLastItem().setNext(toAdd.firstNode);
@@ -232,7 +248,7 @@ public class LinkedList
             ListNode runner = this.getFirstNode();
             int count = 0;
             while(runner != null && !runner.getData().equals(data)){
-                runner = runner.next;
+                runner = runner.getNext();
                 count++;
             }
             if(runner != null){
@@ -242,12 +258,18 @@ public class LinkedList
         return -1;
     }
 
+
+    /**
+     * gets the data at a given index of a LinkedList
+     * @param index the index at which data is to be returned
+     * @return the data at given index
+     */
     public String getDataAtIndex(int index){
         if(!isEmpty()){
             ListNode runner = this.getFirstNode();
             int count = 0;
             while(runner != null && count != index){
-                runner = runner.next;
+                runner = runner.getNext();
                 count++;
             }
             if(runner != null){
@@ -257,7 +279,13 @@ public class LinkedList
         return null;
     }
 
-    public void addAtIndex(int index, String toAdd){
+
+    /**
+     * adds a given string at the specified index of a LinkedList
+     * @param index index of which data is to be added
+     * @param toAdd data to be added
+     */
+    public void insertAtIndex(int index, String toAdd){
         if(!this.isEmpty()){
             ListNode runner = this.firstNode;
             ListNode prev = null;
@@ -281,6 +309,11 @@ public class LinkedList
         }
     }
 
+
+    /**
+     * removes the item at a given index
+     * @param index the index of which data is to be removed
+     */
     public void removeAtIndex(int index){
         if(!this.isEmpty()){
             ListNode runner = this.getFirstNode();
@@ -288,7 +321,7 @@ public class LinkedList
             int currIndex = 0;
             while(runner != null && currIndex != index){
                 prev = runner;
-                runner = runner.next;
+                runner = runner.getNext();
                 currIndex++;
             }
             if(runner != null){
@@ -299,28 +332,37 @@ public class LinkedList
     }
 
 
+    /**
+     * checks to see if one LinkedList is equal to another LinkedList
+     * @param other another LinkedList to check equality
+     * @return true if they are equal, false if not
+     */
     public boolean equals(LinkedList other) {
         if(this.getLength() != other.getLength()) {
             return false;
         }
         ListNode thisRunner = this.firstNode;
         ListNode otherRunner = other.firstNode;
-        while(thisRunner != null && otherRunner != null){ //if not at the end of the list
+        while(thisRunner != null && otherRunner != null){
             if(!thisRunner.getData().equals(otherRunner.getData())){
                 return false;
             }
-            thisRunner = thisRunner.next;
-            otherRunner = otherRunner.next;
+            thisRunner = thisRunner.getNext();
+            otherRunner = otherRunner.getNext();
         }
         return thisRunner == null && otherRunner == null;
     }
 
-	public String toString(){ 
+
+    /**
+     * @return a String representation of the LinkedList
+     */
+    public String toString(){
 		String toReturn = "(";
 		ListNode runner = firstNode;
 		while(runner != null){
 			toReturn = toReturn + runner;
-			runner = runner.next;
+			runner = runner.getNext();
 			if(runner != null){
 				toReturn = toReturn + ", ";
 			}
@@ -328,6 +370,63 @@ public class LinkedList
 		toReturn = toReturn + ")";
 		return toReturn;
 	}
+
+    /** ------------------------------
+     *      PRIVATE HELPER METHODS
+     * _______________________________
+     */
+
+
+    /**
+     * gets the first node in a Linked List
+     * @return the first node
+     */
+    private ListNode getFirstNode() {
+        return this.firstNode;
+    }
+
+    /**
+     * gets the last node in a Linked List
+     * @return the last node
+     */
+    private ListNode getLastItem(){
+        if(this.isEmpty()){
+            return null;
+        }
+        ListNode runner = this.firstNode;
+        while(runner.getNext() != null){
+            runner = runner.getNext();
+        }
+        return runner;
+    }
+
+
+    /**
+     * gets the tail, or the second last node in a Linked List
+     * @return the tail node
+     */
+    private ListNode getTail(){
+        if(this.isEmpty()){
+            return null;
+        }
+        ListNode runner = this.firstNode;
+        ListNode prev = null;
+        while(runner.getNext() != null) {
+            prev = runner;
+            runner = runner.getNext();
+        }
+        return prev;
+    }
+
+
+    /**
+     * checks to see if the given string is at the head of a linkedList
+     * @param data data to see if it is at the head
+     * @return true if at head, false if not
+     */
+    private boolean isHead(String data){
+        return this.firstNode.getData().equals(data);
+    }
 
 }
 
